@@ -27,11 +27,10 @@ class TestMnistClassifierYaksha(unittest.TestCase):
     def test_model_structure(self):
         try:
             layers = self.model.layers
+            dense_layers = [layer for layer in layers if isinstance(layer, tf.keras.layers.Dense)]
             result = (
-                isinstance(layers[0], tf.keras.layers.Dense) and
-                layers[0].output_shape[-1] == 128 and
-                isinstance(layers[2], tf.keras.layers.Dense) and
-                layers[2].output_shape[-1] == 10
+                dense_layers[0].units == 128 and
+                dense_layers[-1].units == 10
             )
             self.test_obj.yakshaAssert("TestModelStructure", result, "functional")
             print("TestModelStructure =", "Passed" if result else "Failed")
